@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .ball{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    .ball:nth-child(1){
+        background: red;
+    }
+    .ball:nth-child(2){
+        background: green;
+    }
+    .ball:nth-child(3){
+        background: lawngreen;
+    }
+
+
+
+</style>
+<body>
+<div id="ball1" class="ball" style="margin-left: 0"></div>
+<div id="ball2" class="ball" style="margin-left: 0"></div>
+<div id="ball3" class="ball" style="margin-left: 0"></div>
+</body>
+</html>
+<script>
+    function move(ele,target,cb) {
+        setTimeout(function () {
+            var marginLeft=parseFloat(ele.style.marginLeft);
+            if(marginLeft<target){
+                marginLeft++
+                ele.style.marginLeft=marginLeft+'px'
+                move(ele,target,cb)
+            }else {
+                cb&cb()
+            }
+        },13)
+    }
+    function go(ele) {
+        return new Promise(function (resolve, reject) {
+            move(ele,200,function () {
+                resolve()
+            })
+        })
+    }
+    go(ball1).then(function () {
+        return go(ball2)
+    })
+        .then(function () {
+            return go(ball3)
+        });
+//var balls=document.getElementsByTagName('div');
+
+</script>
